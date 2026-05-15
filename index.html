@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eyasu Misganu Mita — IT Freelancer</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
   :root {
     --bg: #0a0a0f;
@@ -501,7 +502,28 @@
     text-align: center;
     font-weight: 600;
     margin-top: 1rem;
+    animation: alertIn 0.25s ease;
   }
+  .error-msg {
+    display: none;
+    background: rgba(255,107,107,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    color: var(--accent3);
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1rem;
+    animation: alertIn 0.25s ease;
+  }
+  @keyframes alertIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+  .form-progress { height: 3px; background: var(--border); border-radius: 3px; margin-bottom: 1.75rem; overflow: hidden; }
+  .form-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 3px; width: 0%; transition: width 0.35s ease; }
+  .char-count { font-size: 0.75rem; color: var(--muted); text-align: right; margin-top: 0.25rem; transition: color 0.2s; }
+  .char-count.warn { color: var(--accent3); }
+  .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+  @keyframes cfSpin { to { transform: rotate(360deg); } }
+  .cf-spin { display: inline-block; animation: cfSpin 0.9s linear infinite; }
 
   /* FOOTER */
   footer {
@@ -984,50 +1006,55 @@
       </div>
       <div class="reveal">
         <div class="contact-form">
-          <h3 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:1.5rem;">Send a Message</h3>
+          <h3 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:1.25rem;">Send a Message</h3>
+          <div class="form-progress"><div class="form-progress-fill" id="cfProgress"></div></div>
           <div class="form-row">
             <div class="form-group">
               <label for="fname">First Name</label>
-              <input type="text" id="fname" placeholder="John">
+              <input type="text" id="fname" placeholder="John" autocomplete="given-name">
             </div>
             <div class="form-group">
               <label for="lname">Last Name</label>
-              <input type="text" id="lname" placeholder="Doe">
+              <input type="text" id="lname" placeholder="Doe" autocomplete="family-name">
             </div>
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="john@example.com">
+            <input type="email" id="email" placeholder="john@example.com" autocomplete="email">
           </div>
-          <div class="form-group">
-            <label for="service">Service Needed</label>
-            <select id="service">
-              <option value="">Select a service...</option>
-              <option>Web Development</option>
-              <option>Database Design</option>
-              <option>Network Setup</option>
-              <option>Software Solutions</option>
-              <option>IT Security</option>
-              <option>IT Consulting</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="budget">Budget Range</label>
-            <select id="budget">
-              <option value="">Select a budget...</option>
-              <option>Under $50</option>
-              <option>$50 – $150</option>
-              <option>$150 – $500</option>
-              <option>$500+</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="service">Service Needed</label>
+              <select id="service">
+                <option value="">Select a service...</option>
+                <option>Web Development</option>
+                <option>Database Design</option>
+                <option>Network Setup</option>
+                <option>Software Solutions</option>
+                <option>IT Security</option>
+                <option>IT Consulting</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="budget">Budget Range</label>
+              <select id="budget">
+                <option value="">Select a budget...</option>
+                <option>Under $50</option>
+                <option>$50 – $150</option>
+                <option>$150 – $500</option>
+                <option>$500+</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label for="msg">Project Details</label>
-            <textarea id="msg" placeholder="Tell me about your project, requirements, and timeline..."></textarea>
+            <textarea id="msg" placeholder="Tell me about your project, requirements, and timeline..." maxlength="1000"></textarea>
+            <div class="char-count" id="cfCharCount">0 / 1000</div>
           </div>
-          <button class="btn-submit" onclick="submitForm()">Send Message ✈️</button>
+          <button class="btn-submit" id="cfBtn" onclick="submitForm()">Send Message ✈️</button>
           <div class="success-msg" id="successMsg">✅ Message sent! I'll get back to you within 24 hours.</div>
+          <div class="error-msg" id="errorMsg">❌ Something went wrong. Please check your details and try again.</div>
         </div>
       </div>
     </div>
