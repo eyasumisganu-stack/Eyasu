@@ -1178,7 +1178,7 @@
     } catch (err) {
       console.error('EmailJS error:', err);
       const detail = err?.text || err?.message || 'Unknown error';
-      showFormMsg('error', `❌ Failed to send (${detail}). Please try again or email me directly with "eyasumisganu@gmail.com".`);
+      showFormMsg('error', `❌ Failed to send. Please try again or email me directly with "eyasumisganu@gmail.com".`);
     } finally {
       setFormBusy(false);
     }
